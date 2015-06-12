@@ -2,19 +2,6 @@ require_relative "../spec_helper.rb"
 
 Capybara.app = CompanyContactsApi
 
-describe "root path", :type => :feature do
-  it "should redirect to the named home page" do
-    visit '/'
-    expect(current_path).to eq("/home")
-  end
-
-  it "should send the Content-Type for JSON API" do
-    content_type = "application/vnd.api+json"
-    visit '/'
-    expect(page.response_headers['Content-Type']).to eq(content_type)
-  end
-end
-
 describe "the home page", :type => :feature do
   base_url = "http://localhost:3000"
 

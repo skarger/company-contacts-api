@@ -8,6 +8,7 @@ gem 'rake'
 group :test, :development do
   gem 'rspec'
   gem 'json_expressions'
+  gem 'rack-test'
   gem 'capybara'
   gem 'pry'
 end

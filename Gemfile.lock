@@ -51,6 +51,7 @@ DEPENDENCIES
   json_expressions
   pry
   rack
+  rack-test
   rack-unreloader
   rake
   roda

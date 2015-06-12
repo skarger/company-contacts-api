@@ -6,7 +6,11 @@ class CompanyContactsApi < Roda
     response['Content-Type'] = 'application/vnd.api+json'
 
     r.root do
-      r.redirect "/home"
+      if request.media_type == 'application/vnd.api+json' && !request.media_type_params.empty?
+        response.status = 415
+      else
+        r.redirect "/home"
+      end
     end
 
     r.on "home" do
