@@ -9,10 +9,6 @@ class CompanyContactsApi < Roda
     'application/vnd.api+json'
   end
 
-  def home_page_description
-    "Welcome to our Organizational Contact Points home page. Follow the links to explore a directory of contact info."
-  end
-
   def content_type_valid?(request)
     request.media_type_params.empty? || request.media_type != json_api_media_type
   end
@@ -72,18 +68,16 @@ class CompanyContactsApi < Roda
             "self": "#{base_url}/home"
         },
         "data": [{
-          "type": "WebPage",
-          "id": 1,
-          "attributes": {
-            "mainContentOfPage": "#{home_page_description}"
-          },
-          "relationships": {
-            "organization": {
-              "links": {
-                "self": "#{base_url}/relationships/organization",
-                "related": "#{base_url}/organization"
-              }
-            }
+          "type": "Organization",
+          "id": "1",
+          "links": {
+            "self": "#{base_url}/organizations/1"
+          }
+        }, {
+          "type": "Place",
+          "id": "1",
+          "links": {
+            "self": "#{base_url}/places/1"
           }
         }]
       }
