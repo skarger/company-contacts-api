@@ -45,7 +45,7 @@ describe "server responsibility" do
         end
       end
 
-      context "when at least one instances is not modified with media type parameters" do
+      context "when at least one instance is not modified with media type parameters" do
         it "should not respond with a 406" do
           request_accept = "#{media_parameter_v1}, #{no_media_parameter}"
           header 'Accept', request_accept
