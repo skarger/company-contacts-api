@@ -67,19 +67,33 @@ class CompanyContactsApi < Roda
         "links": {
             "self": "#{base_url}/home"
         },
-        "data": [{
-          "type": "Organization",
+        "data": {
+          "type": "WebPage",
           "id": "1",
-          "links": {
-            "self": "#{base_url}/organizations/1"
+          "attributes": {
+            "description": "Organizational Contact Points"
+          },
+          "relationships": {
+            "organization": {
+              "type": "Organization",
+              "id": "1",
+              "links": {
+                "self": "#{base_url}/home/relationships/organization",
+                "related": "#{base_url}/home/organization"
+              },
+              "data": { "type": "Organization", "id": "1" }
+            },
+            "place": {
+              "type": "Place",
+              "id": "1",
+              "links": {
+                "self": "#{base_url}/home/relationships/place",
+                "related": "#{base_url}/home/place"
+              },
+              "data": { "type": "Place", "id": "1" }
+            }
           }
-        }, {
-          "type": "Place",
-          "id": "1",
-          "links": {
-            "self": "#{base_url}/places/1"
-          }
-        }]
+        }
       }
       RESPONSE
     end
