@@ -1,7 +1,5 @@
 require_relative "../spec_helper.rb"
 
-Capybara.app = CompanyContactsApi
-
 describe "the home page", :type => :feature do
   base_url = "http://localhost:3000"
 
