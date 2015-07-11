@@ -11,4 +11,6 @@ group :test, :development do
   gem 'rack-test'
   gem 'capybara'
   gem 'pry'
+  gem 'guard'
+  gem 'guard-rspec', require: false
 end

@@ -1,5 +1,8 @@
 require 'roda'
 
+require 'json'
+require './content_preparer'
+
 class CompanyContactsApi < Roda
   def base_url
     "http://localhost:3000"
@@ -74,6 +77,11 @@ class CompanyContactsApi < Roda
         r.is "place" do
           home_place_relationship_content
         end
+      end
+
+      r.is "organization" do
+        content_preparer = ContentPreparer.new
+        content_preparer.organization_data
       end
     end
   end
