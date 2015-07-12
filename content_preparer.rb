@@ -1,3 +1,5 @@
+require 'json'
+
 class ContentPreparer
   def organization_data
     organization_data = {
