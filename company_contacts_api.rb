@@ -4,6 +4,8 @@ require 'roda'
 require './content_preparer'
 
 class CompanyContactsApi < Roda
+  include ContentPreparer
+
   def base_url
     "http://localhost:3000"
   end
@@ -80,77 +82,10 @@ class CompanyContactsApi < Roda
       end
 
       r.is "organization" do
-        content_preparer = ContentPreparer.new
-        content_preparer.organization_data
+        organization_data
       end
     end
   end
 
-  def home_organization_relationship_content
-    <<-RESPONSE.gsub /^\s{4}/, ''
-    {
-      "links": {
-          "self": "#{base_url}/home/relationships/organization",
-          "related": "#{base_url}/home/organization"
-      },
-      "data": {
-        "type": "Organization",
-        "id": "1"
-      }
-    }
-    RESPONSE
-  end
-
-  def home_place_relationship_content
-    <<-RESPONSE.gsub /^\s{4}/, ''
-    {
-      "links": {
-          "self": "#{base_url}/home/relationships/place",
-          "related": "#{base_url}/home/place"
-      },
-      "data": {
-        "type": "Place",
-        "id": "1"
-      }
-    }
-    RESPONSE
-  end
-
-  def home_page_content
-    <<-RESPONSE.gsub /^\s{4}/, ''
-    {
-      "links": {
-          "self": "#{base_url}/home"
-      },
-      "data": {
-        "type": "WebPage",
-        "id": "1",
-        "attributes": {
-          "description": "Organizational Contact Points"
-        },
-        "relationships": {
-          "organization": {
-            "type": "Organization",
-            "id": "1",
-            "links": {
-              "self": "#{base_url}/home/relationships/organization",
-              "related": "#{base_url}/home/organization"
-            },
-            "data": { "type": "Organization", "id": "1" }
-          },
-          "place": {
-            "type": "Place",
-            "id": "1",
-            "links": {
-              "self": "#{base_url}/home/relationships/place",
-              "related": "#{base_url}/home/place"
-            },
-            "data": { "type": "Place", "id": "1" }
-          }
-        }
-      }
-    }
-    RESPONSE
-  end
 end
 

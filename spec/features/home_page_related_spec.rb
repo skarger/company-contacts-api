@@ -8,8 +8,7 @@ describe "home page related links", type: :feature do
   end
 
   it "should respond with the overall organization content" do
-    cp = ContentPreparer.new
     visit '/home/organization'
-    expect(page.body).to eq(cp.organization_data)
+    expect(page.body).to eq(organization_data)
   end
 end
