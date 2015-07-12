@@ -12,8 +12,19 @@ describe "home page related links", type: :feature do
         type: "Organization",
         id: "1"
       }
-    }
+    }.ignore_extra_keys!
     visit '/home/organization'
     expect(page.body).to match_json_expression(organization_data_pattern)
+  end
+
+  it "should have a links object with the related organization link" do
+    links_pattern = {
+      links: {
+        self: "#{base_url}/home/organization"
+      }
+    }.ignore_extra_keys!
+    visit '/home/organization'
+    expect(page.body).to match_json_expression(links_pattern)
+
   end
 end

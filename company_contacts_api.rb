@@ -78,7 +78,12 @@ class CompanyContactsApi < Roda
       end
 
       r.is "organization" do
-        organization_data
+        home_related_organization_content
+      end
+
+      # handle trailing slash: /home/
+      r.is "" do
+        r.redirect "/home"
       end
     end
   end

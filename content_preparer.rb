@@ -6,13 +6,26 @@ module ContentPreparer
   end
 
   def organization_data
-    organization_data = {
+    {
       data: {
         type: "Organization",
         id: "1"
       }
     }
-    JSON.generate(organization_data)
+  end
+
+  def home_page_related_organization_links
+    {
+      links: {
+        self: "#{base_url}/home/organization"
+      }
+    }
+  end
+
+  def home_related_organization_content
+    JSON.pretty_generate(
+      home_page_related_organization_links.merge(organization_data)
+    )
   end
 
   def home_organization_relationship_content

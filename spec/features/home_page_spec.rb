@@ -1,6 +1,11 @@
 require_relative "../spec_helper.rb"
 
 describe "the home page", :type => :feature do
+  it "should redirect /home/ to /home" do
+    visit '/home/'
+    expect(current_path).to eq("/home")
+  end
+
   it "should have a links element with a link to itself" do
     links_pattern = {
       links: {
