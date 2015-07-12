@@ -1,20 +1,6 @@
 require_relative "../spec_helper.rb"
 
-require 'rack/test'
-
-include Rack::Test::Methods
-
-def app
-  CompanyContactsApi
-end
-
-def base_url
-  "http://localhost:3000"
-end
-
 describe "home page relations", type: :feature do
-  base_url = "http://localhost:3000"
-
   describe "organization relationship" do
     it "should return 200 for the organization relationship" do
       get '/home/relationships/organization'

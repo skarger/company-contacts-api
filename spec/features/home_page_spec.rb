@@ -1,8 +1,6 @@
 require_relative "../spec_helper.rb"
 
 describe "the home page", :type => :feature do
-  base_url = "http://localhost:3000"
-
   it "should have a links element with a link to itself" do
     links_pattern = {
       links: {

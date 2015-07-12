@@ -6,10 +6,6 @@ require './content_preparer'
 class CompanyContactsApi < Roda
   include ContentPreparer
 
-  def base_url
-    "http://localhost:3000"
-  end
-
   def json_api_media_type
     'application/vnd.api+json'
   end

@@ -1,6 +1,10 @@
 require 'json'
 
 module ContentPreparer
+  def base_url
+    "http://localhost:3000"
+  end
+
   def organization_data
     organization_data = {
       data: {

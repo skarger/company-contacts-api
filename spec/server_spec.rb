@@ -1,13 +1,6 @@
 require_relative "./spec_helper.rb"
-require 'rack/test'
-
-include Rack::Test::Methods
 
 describe "server responsibility" do
-  def app
-    CompanyContactsApi
-  end
-
   it "should send the Content-Type for JSON API" do
     content_type = "application/vnd.api+json"
     get '/'
