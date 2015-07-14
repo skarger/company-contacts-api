@@ -7,13 +7,25 @@ describe "the home page", :type => :feature do
   end
 
   it "should have a links element with a link to itself" do
-    links_pattern = {
+    top_level_links_pattern = {
       links: {
           self: "#{base_url}/home"
       }
     }.ignore_extra_keys!
     visit '/home'
-    expect(JSON.parse(page.body)).to match_json_expression(links_pattern)
+    expect(JSON.parse(page.body)).to match_json_expression(top_level_links_pattern)
+  end
+
+  it "should have a links element within the resource object's data" do
+    top_level_data_pattern = {
+      data: {
+        links: {
+          self: "#{base_url}/home"
+        }
+      }.ignore_extra_keys!
+    }.ignore_extra_keys!
+    visit '/home'
+    expect(JSON.parse(page.body)).to match_json_expression(top_level_data_pattern)
   end
 
   it "should have type, id, and attributes describing the home page" do

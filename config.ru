@@ -1,6 +1,8 @@
-dev = ENV['RACK_ENV'] == 'development'
+# see https://github.com/jeremyevans/rack-unreloader
+in_development_mode = ENV['RACK_ENV'] == 'development'
 require 'rack/unreloader'
-Unreloader = Rack::Unreloader.new(:reload=>dev){CompanyContactsApi}
-require 'roda'
+options = { reload: in_development_mode, subclasses: %w'Roda' }
+Unreloader = Rack::Unreloader.new(options){CompanyContactsApi}
+Unreloader.require './content_preparer.rb'
 Unreloader.require './company_contacts_api.rb'
-run (dev ? Unreloader : CompanyContacsApi)
+run (in_development_mode ? Unreloader : CompanyContacsApi)

@@ -9,7 +9,10 @@ module ContentPreparer
     {
       data: {
         type: "Organization",
-        id: "1"
+        id: "1",
+        links: {
+          self: "#{base_url}/organizations/1"
+        }
       }
     }
   end
@@ -68,6 +71,9 @@ module ContentPreparer
       "data": {
         "type": "WebPage",
         "id": "1",
+        "links": {
+            "self": "#{base_url}/home"
+        },
         "attributes": {
           "description": "Organizational Contact Points"
         },
