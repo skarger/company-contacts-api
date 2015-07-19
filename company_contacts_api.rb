@@ -3,6 +3,7 @@ require 'roda'
 require './content_preparer'
 
 class CompanyContactsApi < Roda
+  plugin :param_matchers
   include ContentPreparer
 
   def json_api_media_type
@@ -59,6 +60,10 @@ class CompanyContactsApi < Roda
 
     r.root do
       r.redirect "/home"
+    end
+
+    r.on :param => 'include' do |value|
+      response.status = 400
     end
 
     r.on "home" do

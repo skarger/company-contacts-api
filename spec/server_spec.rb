@@ -26,26 +26,32 @@ describe "server responsibility" do
   end
 
   context "when a request's Accept header contains the JSON API media type" do
-      let(:no_media_parameter) { "application/vnd.api+json" }
-      media_parameter_v1 = "application/vnd.api+json; version=1.0"
-      media_parameter_v2 = "application/vnd.api+json; version=2.0"
-      context "when all instances are modified with media type parameters" do
-        request_accept = "#{media_parameter_v1}, #{media_parameter_v2}"
-        it "should respond with a 406" do
-          header 'Accept', request_accept
-          get '/'
-          expect(last_response.status).to eq(406)
-        end
-      end
-
-      context "when at least one instance is not modified with media type parameters" do
-        it "should not respond with a 406" do
-          request_accept = "#{media_parameter_v1}, #{no_media_parameter}"
-          header 'Accept', request_accept
-          get '/'
-          expect(last_response.status).to_not eq(406)
-        end
+    let(:no_media_parameter) { "application/vnd.api+json" }
+    media_parameter_v1 = "application/vnd.api+json; version=1.0"
+    media_parameter_v2 = "application/vnd.api+json; version=2.0"
+    context "when all instances are modified with media type parameters" do
+      request_accept = "#{media_parameter_v1}, #{media_parameter_v2}"
+      it "should respond with a 406" do
+        header 'Accept', request_accept
+        get '/'
+        expect(last_response.status).to eq(406)
       end
     end
-end
 
+    context "when at least one instance does not have media type parameters" do
+      it "should not respond with a 406" do
+        request_accept = "#{media_parameter_v1}, #{no_media_parameter}"
+        header 'Accept', request_accept
+        get '/'
+        expect(last_response.status).to_not eq(406)
+      end
+    end
+  end
+
+  context "when include parameter passed and endpoint does not support it" do
+    it "should respond 400" do
+      get '/home?include=organization'
+      expect(last_response.status).to eq(400)
+    end
+  end
+end
