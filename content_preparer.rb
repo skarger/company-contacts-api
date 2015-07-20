@@ -17,6 +17,20 @@ module ContentPreparer
     }
   end
 
+  def primary_organization_links
+    {
+      links: {
+        self: "#{base_url}/organizations/1"
+      }
+    }
+  end
+
+  def primary_organization_content
+    JSON.pretty_generate(
+      primary_organization_links
+    )
+  end
+
   def home_page_related_organization_links
     {
       links: {

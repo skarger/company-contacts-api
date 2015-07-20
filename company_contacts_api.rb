@@ -90,6 +90,12 @@ class CompanyContactsApi < Roda
         r.redirect "/home"
       end
     end
+
+    r.on "organizations/1" do
+      r.is do
+        primary_organization_content
+      end
+    end
   end
 
 end
