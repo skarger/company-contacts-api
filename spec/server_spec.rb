@@ -54,4 +54,11 @@ describe "server responsibility" do
       expect(last_response.status).to eq(400)
     end
   end
+
+  context "when sort parameter passed and endpoint does not support it" do
+    it "should respond 400" do
+      get '/contact_points?sort=contactType'
+      expect(last_response.status).to eq(400)
+    end
+  end
 end

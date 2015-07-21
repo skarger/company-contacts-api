@@ -66,6 +66,10 @@ class CompanyContactsApi < Roda
       response.status = 400
     end
 
+    r.on :param => 'sort' do |value|
+      response.status = 400
+    end
+
     r.on "home" do
       r.is do
         home_page_content
