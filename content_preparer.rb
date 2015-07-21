@@ -27,7 +27,7 @@ module ContentPreparer
 
   def primary_organization_content
     JSON.pretty_generate(
-      primary_organization_links
+      primary_organization_links.merge(organization_data)
     )
   end
 
