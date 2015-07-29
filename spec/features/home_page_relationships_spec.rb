@@ -30,31 +30,31 @@ describe "home page relations", type: :feature do
     end
   end
 
-  describe "place relationship" do
-    it "should return 200 for the place relationship" do
-      get '/home/relationships/place'
+  describe "administrative_areas relationship" do
+    it "should return 200 for the administrative_areas relationship" do
+      get '/home/relationships/administrative_areas'
       expect(last_response.status).to eq(200)
     end
 
-    it "should return have a links object for the place relationship" do
+    it "should have a links object for the administrative_areas relationship" do
       links_pattern = {
         links: {
-          self: "#{base_url}/home/relationships/place",
-          related: "#{base_url}/home/place"
+          self: "#{base_url}/home/relationships/administrative_areas",
+          related: "#{base_url}/home/administrative_areas"
         }
       }.ignore_extra_keys!
-      visit '/home/relationships/place'
+      visit '/home/relationships/administrative_areas'
       expect(JSON.parse(page.body)).to match_json_expression(links_pattern)
     end
 
-    it "should return have a data object for the place relationship" do
+    it "should have a data object for the administrative_areas relationship" do
       data_pattern = {
-        data: {
-          type: "Place",
+        data: [{
+          type: "AdministrativeArea",
           id: "1"
-        }
+        }]
       }.ignore_extra_keys!
-      visit '/home/relationships/place'
+      visit '/home/relationships/administrative_areas'
       expect(JSON.parse(page.body)).to match_json_expression(data_pattern)
     end
   end

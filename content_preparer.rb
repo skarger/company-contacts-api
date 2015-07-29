@@ -61,17 +61,17 @@ module ContentPreparer
   end
 
 
-  def home_place_relationship_content
+  def home_administrative_areas_relationship_content
     <<-RESPONSE.gsub /^\s{4}/, ''
     {
       "links": {
-          "self": "#{base_url}/home/relationships/place",
-          "related": "#{base_url}/home/place"
+          "self": "#{base_url}/home/relationships/administrative_areas",
+          "related": "#{base_url}/home/administrative_areas"
       },
-      "data": {
-        "type": "Place",
+      "data": [{
+        "type": "AdministrativeArea",
         "id": "1"
-      }
+      }]
     }
     RESPONSE
   end
@@ -93,22 +93,20 @@ module ContentPreparer
         },
         "relationships": {
           "organization": {
-            "type": "Organization",
-            "id": "1",
             "links": {
               "self": "#{base_url}/home/relationships/organization",
               "related": "#{base_url}/home/organization"
             },
             "data": { "type": "Organization", "id": "1" }
           },
-          "place": {
-            "type": "Place",
-            "id": "1",
+          "administrative_areas": {
             "links": {
-              "self": "#{base_url}/home/relationships/place",
-              "related": "#{base_url}/home/place"
+              "self": "#{base_url}/home/relationships/administrative_areas",
+              "related": "#{base_url}/home/administrative_areas"
             },
-            "data": { "type": "Place", "id": "1" }
+            "data": [
+              { "type": "AdministrativeArea", "id": "1" }
+            ]
           }
         }
       }

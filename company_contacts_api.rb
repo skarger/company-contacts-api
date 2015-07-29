@@ -80,8 +80,8 @@ class CompanyContactsApi < Roda
           home_organization_relationship_content
         end
 
-        r.is "place" do
-          home_place_relationship_content
+        r.is "administrative_areas" do
+          home_administrative_areas_relationship_content
         end
       end
 
