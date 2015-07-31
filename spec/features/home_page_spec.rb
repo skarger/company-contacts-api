@@ -59,7 +59,8 @@ describe "the home page", :type => :feature do
               related: "#{base_url}/home/administrative_areas"
             },
             data: [
-              { type: "AdministrativeArea", id: "1" }
+              { type: "AdministrativeArea", id: "1" },
+              { type: "AdministrativeArea", id: "2" }
             ]
           }
         }

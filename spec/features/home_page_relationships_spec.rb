@@ -52,6 +52,10 @@ describe "home page relations", type: :feature do
         data: [{
           type: "AdministrativeArea",
           id: "1"
+        },
+        {
+          type: "AdministrativeArea",
+          id: "2"
         }]
       }.ignore_extra_keys!
       visit '/home/relationships/administrative_areas'

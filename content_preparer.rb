@@ -5,13 +5,25 @@ module ContentPreparer
     "http://localhost:3000"
   end
 
+  def primary_organization_id
+    1
+  end
+
+  def administrative_area_id_US
+    1
+  end
+
+  def administrative_area_id_CA
+    2
+  end
+
   def organization_data
     {
       data: {
         type: "Organization",
-        id: "1",
+        id: "#{primary_organization_id}",
         links: {
-          self: "#{base_url}/organizations/1"
+          self: "#{base_url}/organizations/#{primary_organization_id}"
         }
       }
     }
@@ -20,7 +32,7 @@ module ContentPreparer
   def primary_organization_links
     {
       links: {
-        self: "#{base_url}/organizations/1"
+        self: "#{base_url}/organizations/#{primary_organization_id}"
       }
     }
   end
@@ -54,10 +66,46 @@ module ContentPreparer
       },
       "data": {
         "type": "Organization",
-        "id": "1"
+        "id": "#{primary_organization_id}"
       }
     }
     RESPONSE
+  end
+
+  def administrative_areas_collection_data
+    {
+      data: [
+        {
+          type: "AdministrativeArea",
+          id: "#{administrative_area_id_US}",
+          links: {
+            self: "#{base_url}/administrative_areas/#{administrative_area_id_US}"
+          }
+        },
+        {
+          type: "AdministrativeArea",
+          id: "#{administrative_area_id_CA}",
+          links: {
+            self: "#{base_url}/administrative_areas/#{administrative_area_id_CA}"
+          }
+        }
+      ]
+    }
+  end
+
+  def administrative_areas_collection_links
+    {
+      links: {
+        self: "#{base_url}/administrative_areas"
+      }
+    }
+  end
+
+  def administrative_area_collection_content
+    JSON.pretty_generate(
+      administrative_areas_collection_links.
+        merge(administrative_areas_collection_data)
+    )
   end
 
   def home_page_related_administrative_area_links
@@ -70,7 +118,8 @@ module ContentPreparer
 
   def home_related_administrative_areas_content
     JSON.pretty_generate(
-      home_page_related_administrative_area_links
+      home_page_related_administrative_area_links.
+        merge(administrative_areas_collection_data)
     )
   end
 
@@ -83,7 +132,11 @@ module ContentPreparer
       },
       "data": [{
         "type": "AdministrativeArea",
-        "id": "1"
+        "id": "#{administrative_area_id_US}"
+      },
+      {
+        "type": "AdministrativeArea",
+        "id": "#{administrative_area_id_CA}"
       }]
     }
     RESPONSE
@@ -110,7 +163,7 @@ module ContentPreparer
               "self": "#{base_url}/home/relationships/organization",
               "related": "#{base_url}/home/organization"
             },
-            "data": { "type": "Organization", "id": "1" }
+            "data": { "type": "Organization", "id": "#{primary_organization_id}" }
           },
           "administrative_areas": {
             "links": {
@@ -118,7 +171,8 @@ module ContentPreparer
               "related": "#{base_url}/home/administrative_areas"
             },
             "data": [
-              { "type": "AdministrativeArea", "id": "1" }
+              { "type": "AdministrativeArea", "id": "#{administrative_area_id_US}" },
+              { "type": "AdministrativeArea", "id": "#{administrative_area_id_CA}" }
             ]
           }
         }

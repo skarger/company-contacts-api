@@ -104,6 +104,12 @@ class CompanyContactsApi < Roda
         primary_organization_content
       end
     end
+
+    r.on "administrative_areas" do
+      r.is do
+        administrative_area_collection_content
+      end
+    end
   end
 
 end
