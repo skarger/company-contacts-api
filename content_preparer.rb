@@ -60,6 +60,19 @@ module ContentPreparer
     RESPONSE
   end
 
+  def home_page_related_administrative_area_links
+    {
+      links: {
+        self: "#{base_url}/home/administrative_areas"
+      }
+    }
+  end
+
+  def home_related_administrative_areas_content
+    JSON.pretty_generate(
+      home_page_related_administrative_area_links
+    )
+  end
 
   def home_administrative_areas_relationship_content
     <<-RESPONSE.gsub /^\s{4}/, ''
