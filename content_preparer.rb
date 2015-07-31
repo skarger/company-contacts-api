@@ -17,6 +17,10 @@ module ContentPreparer
     2
   end
 
+  def organization_url
+    "#{base_url}/organizations/#{primary_organization_id}"
+  end
+
   def organization_data
     {
       data: {
@@ -24,6 +28,17 @@ module ContentPreparer
         id: "#{primary_organization_id}",
         links: {
           self: "#{base_url}/organizations/#{primary_organization_id}"
+        },
+        relationships: {
+          contact_points: {
+            links: {
+              self: "#{organization_url}/relationships/contact_points",
+              related: "#{organization_url}/contact_points"
+            },
+            data: [
+              { type: "ContactPoint", id: "1" }
+            ]
+          }
         }
       }
     }
@@ -37,9 +52,18 @@ module ContentPreparer
     }
   end
 
+  def organization_included
+    {
+      included: [{
+        type: "ContactPoint",
+        id: "1"
+      }]
+    }
+  end
+
   def primary_organization_content
     JSON.pretty_generate(
-      primary_organization_links.merge(organization_data)
+      primary_organization_links.merge(organization_data).merge(organization_included)
     )
   end
 
@@ -53,7 +77,7 @@ module ContentPreparer
 
   def home_related_organization_content
     JSON.pretty_generate(
-      home_page_related_organization_links.merge(organization_data)
+      home_page_related_organization_links.merge(organization_data).merge(organization_included)
     )
   end
 
@@ -61,8 +85,8 @@ module ContentPreparer
     <<-RESPONSE.gsub /^\s{4}/, ''
     {
       "links": {
-          "self": "#{base_url}/home/relationships/organization",
-          "related": "#{base_url}/home/organization"
+        "self": "#{base_url}/home/relationships/organization",
+        "related": "#{base_url}/home/organization"
       },
       "data": {
         "type": "Organization",
@@ -127,8 +151,8 @@ module ContentPreparer
     <<-RESPONSE.gsub /^\s{4}/, ''
     {
       "links": {
-          "self": "#{base_url}/home/relationships/administrative_areas",
-          "related": "#{base_url}/home/administrative_areas"
+        "self": "#{base_url}/home/relationships/administrative_areas",
+        "related": "#{base_url}/home/administrative_areas"
       },
       "data": [{
         "type": "AdministrativeArea",
@@ -146,7 +170,7 @@ module ContentPreparer
     <<-RESPONSE.gsub /^\s{4}/, ''
     {
       "links": {
-          "self": "#{base_url}/home"
+        "self": "#{base_url}/home"
       },
       "data": {
         "type": "WebPage",
