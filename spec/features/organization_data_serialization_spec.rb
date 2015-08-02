@@ -34,10 +34,7 @@ describe "primary organization data object", type: :feature do
             links: {
               self: "#{organization_url}/relationships/contact_points",
               related: "#{organization_url}/contact_points"
-            },
-            data: [
-              { type: "ContactPoint", id: "1" }
-            ]
+            }
           }
         }
       }.ignore_extra_keys!

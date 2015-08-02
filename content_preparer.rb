@@ -34,10 +34,7 @@ module ContentPreparer
             links: {
               self: "#{organization_url}/relationships/contact_points",
               related: "#{organization_url}/contact_points"
-            },
-            data: [
-              { type: "ContactPoint", id: "1" }
-            ]
+            }
           }
         }
       }
@@ -52,18 +49,9 @@ module ContentPreparer
     }
   end
 
-  def organization_included
-    {
-      included: [{
-        type: "ContactPoint",
-        id: "1"
-      }]
-    }
-  end
-
   def primary_organization_content
     JSON.pretty_generate(
-      primary_organization_links.merge(organization_data).merge(organization_included)
+      primary_organization_links.merge(organization_data)
     )
   end
 
@@ -77,7 +65,7 @@ module ContentPreparer
 
   def home_related_organization_content
     JSON.pretty_generate(
-      home_page_related_organization_links.merge(organization_data).merge(organization_included)
+      home_page_related_organization_links.merge(organization_data)
     )
   end
 
