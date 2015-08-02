@@ -30,10 +30,16 @@ module ContentPreparer
           self: "#{base_url}/organizations/#{primary_organization_id}"
         },
         relationships: {
-          contact_points: {
+          public_contact_points: {
             links: {
-              self: "#{organization_url}/relationships/contact_points",
-              related: "#{organization_url}/contact_points"
+              self: "#{organization_url}/relationships/public_contact_points",
+              related: "#{organization_url}/public_contact_points"
+            }
+          },
+          member_facing_contact_points: {
+            links: {
+              self: "#{organization_url}/relationships/member_facing_contact_points",
+              related: "#{organization_url}/member_facing_contact_points"
             }
           }
         }
