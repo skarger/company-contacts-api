@@ -103,6 +103,16 @@ class CompanyContactsApi < Roda
       r.is do
         primary_organization_content
       end
+
+      r.is "public_contact_points" do
+        "{}"
+      end
+
+      r.on "relationships" do
+        r.is "public_contact_points" do
+          organization_relationship_public_contact_points
+        end
+      end
     end
 
     r.on "administrative_areas" do

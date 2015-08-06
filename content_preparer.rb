@@ -61,6 +61,21 @@ module ContentPreparer
     )
   end
 
+  def organization_relationship_public_contact_points
+    <<-RESPONSE.gsub /^\s{4}/, ''
+    {
+      "links": {
+        "self": "#{organization_url}/relationships/public_contact_points",
+        "related": "#{organization_url}/public_contact_points"
+      },
+      "data": [{
+        "type": "ContactPoint",
+        "id": "1"
+      }]
+    }
+    RESPONSE
+  end
+
   def home_page_related_organization_links
     {
       links: {
