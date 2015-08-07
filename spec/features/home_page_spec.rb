@@ -42,7 +42,7 @@ describe "the home page", :type => :feature do
     expect(JSON.parse(page.body)).to match_json_expression(top_level_data_pattern)
   end
 
-  it "should have related Organization and AdministrativeArea links" do
+  it "should have related Organization links" do
     top_level_data_pattern = {
       data: {
         relationships: {
@@ -50,18 +50,7 @@ describe "the home page", :type => :feature do
             links: {
               self: "#{base_url}/home/relationships/organization",
               related: "#{base_url}/home/organization"
-            },
-            data: { type: "Organization", id: "1" }
-          },
-          administrative_areas: {
-            links: {
-              self: "#{base_url}/home/relationships/administrative_areas",
-              related: "#{base_url}/home/administrative_areas"
-            },
-            data: [
-              { type: "AdministrativeArea", id: "1" },
-              { type: "AdministrativeArea", id: "2" }
-            ]
+            }
           }
         }
       }.ignore_extra_keys!

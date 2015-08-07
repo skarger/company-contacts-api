@@ -41,6 +41,12 @@ module ContentPreparer
               self: "#{organization_url}/relationships/member_facing_contact_points",
               related: "#{organization_url}/member_facing_contact_points"
             }
+          },
+          administrative_areas: {
+            links: {
+              self: "#{organization_url}/relationships/administrative_areas",
+              related: "#{organization_url}/administrative_areas"
+            }
           }
         }
       }
@@ -72,6 +78,21 @@ module ContentPreparer
         "type": "ContactPoint",
         "id": "1"
       }]
+    }
+    RESPONSE
+  end
+
+  def organization_relationship_administrative_areas
+    <<-RESPONSE.gsub /^\s{4}/,''
+    "administrative_areas": {
+      "links": {
+        "self": "#{base_url}/home/relationships/administrative_areas",
+        "related": "#{base_url}/home/administrative_areas"
+      },
+      "data": [
+        { "type": "AdministrativeArea", "id": "#{administrative_area_id_US}" },
+        { "type": "AdministrativeArea", "id": "#{administrative_area_id_CA}" }
+      ]
     }
     RESPONSE
   end
@@ -112,14 +133,14 @@ module ContentPreparer
           type: "AdministrativeArea",
           id: "#{administrative_area_id_US}",
           links: {
-            self: "#{base_url}/administrative_areas/#{administrative_area_id_US}"
+            self: "#{organization_url}/administrative_areas/#{administrative_area_id_US}"
           }
         },
         {
           type: "AdministrativeArea",
           id: "#{administrative_area_id_CA}",
           links: {
-            self: "#{base_url}/administrative_areas/#{administrative_area_id_CA}"
+            self: "#{organization_url}/administrative_areas/#{administrative_area_id_CA}"
           }
         }
       ]
@@ -129,7 +150,7 @@ module ContentPreparer
   def administrative_areas_collection_links
     {
       links: {
-        self: "#{base_url}/administrative_areas"
+        self: "#{organization_url}/administrative_areas"
       }
     }
   end
@@ -149,19 +170,12 @@ module ContentPreparer
     }
   end
 
-  def home_related_administrative_areas_content
-    JSON.pretty_generate(
-      home_page_related_administrative_area_links.
-        merge(administrative_areas_collection_data)
-    )
-  end
-
-  def home_administrative_areas_relationship_content
+  def organization_administrative_areas_relationship_content
     <<-RESPONSE.gsub /^\s{4}/, ''
     {
       "links": {
-        "self": "#{base_url}/home/relationships/administrative_areas",
-        "related": "#{base_url}/home/administrative_areas"
+        "self": "#{organization_url}/relationships/administrative_areas",
+        "related": "#{organization_url}/administrative_areas"
       },
       "data": [{
         "type": "AdministrativeArea",
@@ -195,18 +209,7 @@ module ContentPreparer
             "links": {
               "self": "#{base_url}/home/relationships/organization",
               "related": "#{base_url}/home/organization"
-            },
-            "data": { "type": "Organization", "id": "#{primary_organization_id}" }
-          },
-          "administrative_areas": {
-            "links": {
-              "self": "#{base_url}/home/relationships/administrative_areas",
-              "related": "#{base_url}/home/administrative_areas"
-            },
-            "data": [
-              { "type": "AdministrativeArea", "id": "#{administrative_area_id_US}" },
-              { "type": "AdministrativeArea", "id": "#{administrative_area_id_CA}" }
-            ]
+            }
           }
         }
       }

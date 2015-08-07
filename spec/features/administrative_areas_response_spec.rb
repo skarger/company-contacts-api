@@ -24,12 +24,12 @@ describe "administrative_areas endpoint", type: :feature do
       data: [
         {
           links: {
-            self: "#{base_url}/administrative_areas/#{administrative_area_id_US}"
+            self: "#{organization_url}/administrative_areas/#{administrative_area_id_US}"
           }
         }.ignore_extra_keys!,
         {
           links: {
-            self: "#{base_url}/administrative_areas/#{administrative_area_id_CA}"
+            self: "#{organization_url}/administrative_areas/#{administrative_area_id_CA}"
           }
         }.ignore_extra_keys!
       ]
@@ -38,24 +38,24 @@ describe "administrative_areas endpoint", type: :feature do
 
   context "when requesting the canonical AdministrativeAreas collection" do
     it "should respond to the canonical link with the resource" do
-      visit "/administrative_areas"
+      visit "#{organization_url}/administrative_areas"
       expect(page.body).to match_json_expression(administrative_area_data_pattern)
     end
 
     it "should have the item links within the resource individual objects" do
-      visit "/administrative_areas"
+      visit "#{organization_url}/administrative_areas"
       expect(page.body).to match_json_expression(data_links_pattern)
     end
   end
 
-  context "when requesting the home related administrative_areas link" do
+  context "when requesting the organization related administrative_areas link" do
     it "should respond with the administrative_areas collection" do
-      visit '/home/administrative_areas'
+      visit "#{organization_url}/administrative_areas"
       expect(page.body).to match_json_expression(administrative_area_data_pattern)
     end
 
     it "should have the item links within the resource individual objects" do
-      visit '/home/administrative_areas'
+      visit "#{organization_url}/administrative_areas"
       expect(page.body).to match_json_expression(data_links_pattern)
     end
   end

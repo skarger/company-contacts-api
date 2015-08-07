@@ -79,18 +79,10 @@ class CompanyContactsApi < Roda
         r.is "organization" do
           home_organization_relationship_content
         end
-
-        r.is "administrative_areas" do
-          home_administrative_areas_relationship_content
-        end
       end
 
       r.is "organization" do
         home_related_organization_content
-      end
-
-      r.is "administrative_areas" do
-        home_related_administrative_areas_content
       end
 
       # handle trailing slash: /home/
@@ -108,18 +100,23 @@ class CompanyContactsApi < Roda
         "{}"
       end
 
+      r.on "administrative_areas" do
+        r.is do
+          administrative_area_collection_content
+        end
+      end
+
       r.on "relationships" do
         r.is "public_contact_points" do
           organization_relationship_public_contact_points
         end
+
+        r.is "administrative_areas" do
+          organization_administrative_areas_relationship_content
+        end
       end
     end
 
-    r.on "administrative_areas" do
-      r.is do
-        administrative_area_collection_content
-      end
-    end
   end
 
 end

@@ -41,6 +41,12 @@ describe "primary organization data object", type: :feature do
               self: "#{organization_url}/relationships/member_facing_contact_points",
               related: "#{organization_url}/member_facing_contact_points"
             }
+          },
+          administrative_areas: {
+            links: {
+              self: "#{organization_url}/relationships/administrative_areas",
+              related: "#{organization_url}/administrative_areas"
+            }
           }
         }
       }.ignore_extra_keys!
