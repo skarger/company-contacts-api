@@ -70,20 +70,4 @@ describe "primary organization data object", type: :feature do
     end
   end
 
-  context "when requesting the home related organization link" do
-    it "should respond to the home related link with the resource" do
-      visit '/home/organization'
-      expect(page.body).to match_json_expression(organization_data_pattern)
-    end
-
-    it "should have the canonical link within the resource data links object" do
-      visit '/home/organization'
-      expect(page.body).to match_json_expression(data_links_pattern)
-    end
-
-    it "should have a link to contact points within the data relationships" do
-      visit "/home/organization"
-      expect(page.body).to match_json_expression(data_relationships_pattern)
-    end
-  end
 end

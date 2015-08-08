@@ -76,12 +76,12 @@ class CompanyContactsApi < Roda
       end
 
       r.on "relationships" do
-        r.is "organization" do
+        r.is "organizations" do
           home_organization_relationship_content
         end
       end
 
-      r.is "organization" do
+      r.is "organizations" do
         home_related_organization_content
       end
 

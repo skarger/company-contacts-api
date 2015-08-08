@@ -21,32 +21,30 @@ module ContentPreparer
     "#{base_url}/organizations/#{primary_organization_id}"
   end
 
-  def organization_data
+  def primary_organization_data
     {
-      data: {
-        type: "Organization",
-        id: "#{primary_organization_id}",
-        links: {
-          self: "#{base_url}/organizations/#{primary_organization_id}"
+      type: "Organization",
+      id: "#{primary_organization_id}",
+      links: {
+        self: "#{base_url}/organizations/#{primary_organization_id}"
+      },
+      relationships: {
+        public_contact_points: {
+          links: {
+            self: "#{organization_url}/relationships/public_contact_points",
+            related: "#{organization_url}/public_contact_points"
+          }
         },
-        relationships: {
-          public_contact_points: {
-            links: {
-              self: "#{organization_url}/relationships/public_contact_points",
-              related: "#{organization_url}/public_contact_points"
-            }
-          },
-          member_facing_contact_points: {
-            links: {
-              self: "#{organization_url}/relationships/member_facing_contact_points",
-              related: "#{organization_url}/member_facing_contact_points"
-            }
-          },
-          administrative_areas: {
-            links: {
-              self: "#{organization_url}/relationships/administrative_areas",
-              related: "#{organization_url}/administrative_areas"
-            }
+        member_facing_contact_points: {
+          links: {
+            self: "#{organization_url}/relationships/member_facing_contact_points",
+            related: "#{organization_url}/member_facing_contact_points"
+          }
+        },
+        administrative_areas: {
+          links: {
+            self: "#{organization_url}/relationships/administrative_areas",
+            related: "#{organization_url}/administrative_areas"
           }
         }
       }
@@ -63,7 +61,7 @@ module ContentPreparer
 
   def primary_organization_content
     JSON.pretty_generate(
-      primary_organization_links.merge(organization_data)
+      primary_organization_links.merge({data: primary_organization_data})
     )
   end
 
@@ -104,14 +102,14 @@ module ContentPreparer
   def home_page_related_organization_links
     {
       links: {
-        self: "#{base_url}/home/organization"
+        self: "#{base_url}/home/organizations"
       }
     }
   end
 
   def home_related_organization_content
     JSON.pretty_generate(
-      home_page_related_organization_links.merge(organization_data)
+      home_page_related_organization_links.merge({data: [primary_organization_data]})
     )
   end
 
@@ -119,13 +117,13 @@ module ContentPreparer
     <<-RESPONSE.gsub /^\s{4}/, ''
     {
       "links": {
-        "self": "#{base_url}/home/relationships/organization",
-        "related": "#{base_url}/home/organization"
+        "self": "#{base_url}/home/relationships/organizations",
+        "related": "#{base_url}/home/organizations"
       },
-      "data": {
+      "data": [{
         "type": "Organization",
         "id": "#{primary_organization_id}"
-      }
+      }]
     }
     RESPONSE
   end
@@ -182,10 +180,10 @@ module ContentPreparer
           "description": "Organizational Contact Points"
         },
         "relationships": {
-          "organization": {
+          "organizations": {
             "links": {
-              "self": "#{base_url}/home/relationships/organization",
-              "related": "#{base_url}/home/organization"
+              "self": "#{base_url}/home/relationships/organizations",
+              "related": "#{base_url}/home/organizations"
             }
           }
         }

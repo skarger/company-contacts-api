@@ -46,10 +46,10 @@ describe "the home page", :type => :feature do
     top_level_data_pattern = {
       data: {
         relationships: {
-          organization: {
+          organizations: {
             links: {
-              self: "#{base_url}/home/relationships/organization",
-              related: "#{base_url}/home/organization"
+              self: "#{base_url}/home/relationships/organizations",
+              related: "#{base_url}/home/organizations"
             }
           }
         }
