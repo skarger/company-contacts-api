@@ -17,11 +17,15 @@ describe "public contact points endpoint", type: :feature do
   end
 
   it "should have a data object with a collection of ContactPoint values" do
+    contact_point_US = ContactPoint.new(1, ["US"], "1-866-123-4567")
+    contact_point_CA = ContactPoint.new(2, ["CA"], "1-866-987-6543")
+    contact_point_GB = ContactPoint.new(3, ["GB"], "44 1234 567")
     data_collection_pattern = {
-      data: [{
-        type: "ContactPoint",
-        id: "1"
-      }.ignore_extra_keys!]
+      data: [
+        serialize_contact_point(contact_point_US),
+        serialize_contact_point(contact_point_CA),
+        serialize_contact_point(contact_point_GB)
+      ]
     }.ignore_extra_keys!
     visit "#{organization_url}/public_contact_points"
     expect(page.body).to match_json_expression(data_collection_pattern)

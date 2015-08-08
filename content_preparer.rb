@@ -195,10 +195,12 @@ module ContentPreparer
   end
 
   class ContactPoint
-    attr_reader :id
+    attr_reader :id, :area_served, :phone_number
 
-    def initialize(id)
+    def initialize(id, area_served, phone_number)
       @id = id
+      @area_served = area_served
+      @phone_number = phone_number
     end
   end
 
@@ -209,17 +211,26 @@ module ContentPreparer
       links: {
         self: "#{organization_url}/contact_points/#{contact_point.id}"
       },
-      attributes: {}
+      attributes: {
+        areaServed: contact_point.area_served,
+        phoneNumber: contact_point.phone_number
+      }
     }
   end
 
   def organization_public_contact_points_content
-    contact_point = ContactPoint.new(1)
+    contact_point_US = ContactPoint.new(1, ["US"], "1-866-123-4567")
+    contact_point_CA = ContactPoint.new(2, ["CA"], "1-866-987-6543")
+    contact_point_GB = ContactPoint.new(3, ["GB"], "44 1234 567")
     response = {
       links:  {
           "self":  "#{organization_url}/public_contact_points"
       },
-      data: [serialize_contact_point(contact_point)]
+      data: [
+        serialize_contact_point(contact_point_US),
+        serialize_contact_point(contact_point_CA),
+        serialize_contact_point(contact_point_GB)
+      ]
     }
     JSON.pretty_generate(response)
   end
