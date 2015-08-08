@@ -97,7 +97,7 @@ class CompanyContactsApi < Roda
       end
 
       r.is "public_contact_points" do
-        "{}"
+        organization_public_contact_points_content
       end
 
       r.on "administrative_areas" do

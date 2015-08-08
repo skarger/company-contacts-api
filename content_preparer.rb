@@ -193,4 +193,34 @@ module ContentPreparer
     }
     RESPONSE
   end
+
+  class ContactPoint
+    attr_reader :id
+
+    def initialize(id)
+      @id = id
+    end
+  end
+
+  def serialize_contact_point(contact_point)
+    {
+      type: "ContactPoint",
+      id: "#{contact_point.id}",
+      links: {
+        self: "#{organization_url}/contact_points/#{contact_point.id}"
+      },
+      attributes: {}
+    }
+  end
+
+  def organization_public_contact_points_content
+    contact_point = ContactPoint.new(1)
+    response = {
+      links:  {
+          "self":  "#{organization_url}/public_contact_points"
+      },
+      data: [serialize_contact_point(contact_point)]
+    }
+    JSON.pretty_generate(response)
+  end
 end
