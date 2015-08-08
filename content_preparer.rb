@@ -56,7 +56,7 @@ module ContentPreparer
   def primary_organization_links
     {
       links: {
-        self: "#{base_url}/organizations/#{primary_organization_id}"
+        self: "#{organization_url}"
       }
     }
   end
@@ -67,7 +67,7 @@ module ContentPreparer
     )
   end
 
-  def organization_relationship_public_contact_points
+  def organization_public_contact_points_relationship_content
     <<-RESPONSE.gsub /^\s{4}/, ''
     {
       "links": {
@@ -82,17 +82,21 @@ module ContentPreparer
     RESPONSE
   end
 
-  def organization_relationship_administrative_areas
-    <<-RESPONSE.gsub /^\s{4}/,''
-    "administrative_areas": {
+  def organization_administrative_areas_relationship_content
+    <<-RESPONSE.gsub /^\s{4}/, ''
+    {
       "links": {
-        "self": "#{base_url}/home/relationships/administrative_areas",
-        "related": "#{base_url}/home/administrative_areas"
+        "self": "#{organization_url}/relationships/administrative_areas",
+        "related": "#{organization_url}/administrative_areas"
       },
-      "data": [
-        { "type": "AdministrativeArea", "id": "#{administrative_area_id_US}" },
-        { "type": "AdministrativeArea", "id": "#{administrative_area_id_CA}" }
-      ]
+      "data": [{
+        "type": "AdministrativeArea",
+        "id": "#{administrative_area_id_US}"
+      },
+      {
+        "type": "AdministrativeArea",
+        "id": "#{administrative_area_id_CA}"
+      }]
     }
     RESPONSE
   end
@@ -160,33 +164,6 @@ module ContentPreparer
       administrative_areas_collection_links.
         merge(administrative_areas_collection_data)
     )
-  end
-
-  def home_page_related_administrative_area_links
-    {
-      links: {
-        self: "#{base_url}/home/administrative_areas"
-      }
-    }
-  end
-
-  def organization_administrative_areas_relationship_content
-    <<-RESPONSE.gsub /^\s{4}/, ''
-    {
-      "links": {
-        "self": "#{organization_url}/relationships/administrative_areas",
-        "related": "#{organization_url}/administrative_areas"
-      },
-      "data": [{
-        "type": "AdministrativeArea",
-        "id": "#{administrative_area_id_US}"
-      },
-      {
-        "type": "AdministrativeArea",
-        "id": "#{administrative_area_id_CA}"
-      }]
-    }
-    RESPONSE
   end
 
   def home_page_content
