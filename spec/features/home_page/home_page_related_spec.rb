@@ -17,12 +17,10 @@ describe "home page related links", type: :feature do
       expect(page.body).to match_json_expression(top_level_links_pattern)
     end
 
-    it "should have a data object" do
+    it "should have a data object with serialized organization collection" do
+      organizations = OrganizationCollection.new
       organizations_data_pattern = {
-        data: [{
-            type: "Organization",
-            id: "1"
-        }.ignore_extra_keys!]
+        data: organizations.resource_objects
       }.ignore_extra_keys!
       visit '/home/organizations'
       expect(page.body).to match_json_expression(organizations_data_pattern)

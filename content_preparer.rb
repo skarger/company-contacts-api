@@ -3,26 +3,71 @@ require 'json'
 class OrganizationCollection
   def initialize
     @organization_ids = [1]
-    @type = "Organization"
   end
 
   def resource_identifier_array
     @organization_ids.map do |id|
+      organization = Organization.new
       {
-        type: @type,
-        id: id.to_s
+        type: organization.type,
+        id: organization.id.to_s
       }
     end
+  end
+
+  def resource_objects
+    @organization_ids.map do |id|
+      Organization.new.data
+    end
+  end
+end
+
+class Organization
+  attr_reader :type, :id
+
+  def initialize
+    @type = "Organization"
+    @id = 1
+  end
+
+  def url
+    "#{base_url}/organizations/#{@id}"
+  end
+
+  def data
+    {
+      type: @type,
+      id: @id.to_s,
+      links: {
+        self: "#{url}"
+      },
+      relationships: {
+        public_contact_points: {
+          links: {
+            self: "#{url}/relationships/public_contact_points",
+            related: "#{url}/public_contact_points"
+          }
+        },
+        member_facing_contact_points: {
+          links: {
+            self: "#{url}/relationships/member_facing_contact_points",
+            related: "#{url}/member_facing_contact_points"
+          }
+        },
+        administrative_areas: {
+          links: {
+            self: "#{url}/relationships/administrative_areas",
+            related: "#{url}/administrative_areas"
+          }
+        }
+      }
+    }
   end
 end
 
 module ContentPreparer
   def base_url
     "http://localhost:3000"
-  end
-
-  def primary_organization_id
-    1
   end
 
   def administrative_area_id_US
@@ -33,49 +78,29 @@ module ContentPreparer
     2
   end
 
-  def organization_url
-    "#{base_url}/organizations/#{primary_organization_id}"
+  def primary_organization
+    Organization.new
   end
 
-  def primary_organization_data
-    {
-      type: "Organization",
-      id: "#{primary_organization_id}",
-      links: {
-        self: "#{base_url}/organizations/#{primary_organization_id}"
-      },
-      relationships: {
-        public_contact_points: {
-          links: {
-            self: "#{organization_url}/relationships/public_contact_points",
-            related: "#{organization_url}/public_contact_points"
-          }
-        },
-        member_facing_contact_points: {
-          links: {
-            self: "#{organization_url}/relationships/member_facing_contact_points",
-            related: "#{organization_url}/member_facing_contact_points"
-          }
-        },
-        administrative_areas: {
-          links: {
-            self: "#{organization_url}/relationships/administrative_areas",
-            related: "#{organization_url}/administrative_areas"
-          }
-        }
-      }
-    }
+  def primary_organization_id
+    primary_organization.id
+  end
+
+  def organization_url
+    primary_organization.url
   end
 
   def primary_organization_links
     {
       links: {
-        self: "#{organization_url}"
+        self: "#{Organization.new.url}"
       }
     }
   end
 
   def primary_organization_content
+    organizations = OrganizationCollection.new
+    primary_organization_data = organizations.resource_objects[0]
     JSON.pretty_generate(
       primary_organization_links.merge({data: primary_organization_data})
     )
@@ -124,8 +149,9 @@ module ContentPreparer
   end
 
   def home_related_organization_content
+    data = OrganizationCollection.new.resource_objects
     JSON.pretty_generate(
-      home_page_related_organization_links.merge({data: [primary_organization_data]})
+      home_page_related_organization_links.merge({data: data})
     )
   end
 

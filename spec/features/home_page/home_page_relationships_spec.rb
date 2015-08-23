@@ -18,7 +18,7 @@ describe "home page relations", type: :feature do
       expect(JSON.parse(page.body)).to match_json_expression(links_pattern)
     end
 
-    it "should return a data object" do
+    it "should return a data object with resource identifiers" do
       data_pattern = {
         data: [{
           type: "Organization",
