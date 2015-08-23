@@ -1,4 +1,5 @@
 require 'json'
+Dir["./presenters/*.rb"].each {|file| require file }
 
 module Configuration
   def base_url
