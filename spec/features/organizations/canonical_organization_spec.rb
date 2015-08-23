@@ -1,4 +1,4 @@
-require_relative '../spec_helper.rb'
+require 'spec_helper'
 
 describe "primary organization endpoint", type: :feature do
   let(:primary_organization_id) { 1 }

@@ -1,4 +1,4 @@
-require_relative '../spec_helper.rb'
+require 'spec_helper'
 
 describe "public contact points endpoint", type: :feature do
   it "should respond with a 200 to the organization related link" do

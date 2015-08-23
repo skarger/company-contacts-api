@@ -1,4 +1,4 @@
-require_relative '../spec_helper.rb'
+require 'spec_helper'
 
 describe "administrative_areas endpoint", type: :feature do
   let(:administrative_area_id_US) { 1 }

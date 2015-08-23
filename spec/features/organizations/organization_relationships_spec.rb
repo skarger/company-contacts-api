@@ -1,4 +1,4 @@
-require_relative "../spec_helper.rb"
+require 'spec_helper'
 
 describe "organization relationships", type: :feature do
   describe "public contact points relationship" do

@@ -1,4 +1,4 @@
-require_relative "../spec_helper.rb"
+require 'spec_helper'
 
 describe "home page relations", type: :feature do
   describe "link to organizations relationship" do

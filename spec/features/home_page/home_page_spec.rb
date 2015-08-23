@@ -1,4 +1,4 @@
-require_relative "../spec_helper.rb"
+require 'spec_helper'
 
 describe "the home page", :type => :feature do
   it "should redirect /home/ to /home" do

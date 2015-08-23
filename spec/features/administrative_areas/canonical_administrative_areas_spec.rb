@@ -1,4 +1,4 @@
-require_relative '../spec_helper.rb'
+require 'spec_helper'
 
 describe "administrative_areas collection endpoint", type: :feature do
   it "should successfully respond to the canonical administrative_areas link" do
