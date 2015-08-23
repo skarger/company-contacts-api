@@ -1,5 +1,11 @@
 require 'json'
 
+module Configuration
+  def base_url
+    "http://localhost:3000"
+  end
+end
+
 class OrganizationCollection
   def initialize
     @organization_ids = [1]
@@ -23,6 +29,8 @@ class OrganizationCollection
 end
 
 class Organization
+  include Configuration
+
   attr_reader :type, :id
 
   def initialize
@@ -66,9 +74,7 @@ class Organization
 end
 
 module ContentPreparer
-  def base_url
-    "http://localhost:3000"
-  end
+  include Configuration
 
   def administrative_area_id_US
     1
