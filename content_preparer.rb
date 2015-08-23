@@ -1,5 +1,21 @@
 require 'json'
 
+class OrganizationCollection
+  def initialize
+    @organization_ids = [1]
+    @type = "Organization"
+  end
+
+  def resource_identifier_array
+    @organization_ids.map do |id|
+      {
+        type: @type,
+        id: id.to_s
+      }
+    end
+  end
+end
+
 module ContentPreparer
   def base_url
     "http://localhost:3000"
@@ -114,16 +130,14 @@ module ContentPreparer
   end
 
   def home_organization_relationship_content
+    organizations = OrganizationCollection.new
     <<-RESPONSE.gsub /^\s{4}/, ''
     {
       "links": {
         "self": "#{base_url}/home/relationships/organizations",
         "related": "#{base_url}/home/organizations"
       },
-      "data": [{
-        "type": "Organization",
-        "id": "#{primary_organization_id}"
-      }]
+      "data": #{JSON.pretty_generate(organizations.resource_identifier_array)}
     }
     RESPONSE
   end
