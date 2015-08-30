@@ -240,41 +240,32 @@ module ContentPreparer
   end
 
   class ContactPoint
-    attr_reader :id, :area_served, :phone_number
+    attr_reader :id, :area_served, :phone_number, :organization
 
-    def initialize(id, area_served, phone_number)
+    def initialize(id, area_served, phone_number, organization)
       @id = id
       @area_served = area_served
       @phone_number = phone_number
+      @organization = organization
+    end
+
+    def organization_id
+      @organization.id
     end
   end
 
-  def serialize_contact_point(contact_point)
-    {
-      type: "ContactPoint",
-      id: "#{contact_point.id}",
-      links: {
-        self: "#{organization_url}/contact_points/#{contact_point.id}"
-      },
-      attributes: {
-        areaServed: contact_point.area_served,
-        phoneNumber: contact_point.phone_number
-      }
-    }
-  end
-
   def organization_public_contact_points_content
-    contact_point_US = ContactPoint.new(1, ["US"], "1-866-123-4567")
-    contact_point_CA = ContactPoint.new(2, ["CA"], "1-866-987-6543")
-    contact_point_GB = ContactPoint.new(3, ["GB"], "44 1234 567")
+    contact_point_US = ContactPoint.new(1, ["US"], "1-866-123-4567", primary_organization)
+    contact_point_CA = ContactPoint.new(2, ["CA"], "1-866-987-6543", primary_organization)
+    contact_point_GB = ContactPoint.new(3, ["GB"], "44 1234 567", primary_organization)
     response = {
       links:  {
           "self":  "#{organization_url}/public_contact_points"
       },
       data: [
-        serialize_contact_point(contact_point_US),
-        serialize_contact_point(contact_point_CA),
-        serialize_contact_point(contact_point_GB)
+        ContactPointPresenter.new(contact_point_US).resource_object,
+        ContactPointPresenter.new(contact_point_CA).resource_object,
+        ContactPointPresenter.new(contact_point_GB).resource_object
       ]
     }
     JSON.pretty_generate(response)
