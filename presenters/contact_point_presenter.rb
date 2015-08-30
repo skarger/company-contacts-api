@@ -1,4 +1,6 @@
 class ContactPointPresenter
+  include Configuration
+
   def initialize(contact_point)
     @contact_point = contact_point
   end

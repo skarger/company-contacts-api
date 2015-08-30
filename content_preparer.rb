@@ -1,12 +1,7 @@
 require 'json'
 require './models'
-Dir["./presenters/*.rb"].each {|file| require file }
-
-module Configuration
-  def base_url
-    "http://localhost:3000"
-  end
-end
+require './presenters'
+require './configuration'
 
 class OrganizationCollection
   def initialize
