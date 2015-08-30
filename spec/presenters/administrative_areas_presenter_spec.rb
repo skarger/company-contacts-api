@@ -12,20 +12,6 @@ describe "AdministrativeAreasPresenter" do
       expect(administrative_areas).to be
   end
 
-  describe "#size" do
-    it "should return 0 if it contains 0 AdministrativeAreas" do
-      administrative_areas = AdministrativeAreasPresenter.new()
-      expect(administrative_areas.size).to eq(0)
-    end
-
-    it "should return 1 if it contains 1 AdministrativeArea" do
-      administrative_areas = AdministrativeAreasPresenter.new(
-        [AdministrativeAreaPresenter.new]
-      )
-      expect(administrative_areas.size).to eq(1)
-    end
-  end
-
   describe "#resource_objects" do
     it "should return an Array" do
       administrative_areas = AdministrativeAreasPresenter.new([])

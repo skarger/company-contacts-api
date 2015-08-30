@@ -23,6 +23,14 @@ describe "organization relationships", type: :feature do
         data: [{
           type: "ContactPoint",
           id: "1"
+        },
+        {
+          type: "ContactPoint",
+          id: "2"
+        },
+        {
+          type: "ContactPoint",
+          id: "3"
         }]
       }.ignore_extra_keys!
       visit "#{organization_url}/relationships/public_contact_points"

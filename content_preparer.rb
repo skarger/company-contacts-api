@@ -98,6 +98,25 @@ module ContentPreparer
     primary_organization.url
   end
 
+  def all_contact_points
+    attributes_US = {id: 1, area_served: ["US"], phone_number: "1-866-123-4567"}
+    attributes_CA = {id: 2, area_served: ["CA"], phone_number: "1-866-987-6543"}
+    attributes_GB = {id: 3, area_served: ["GB"], phone_number: "44 1234 567"}
+    contact_point_US = ContactPoint.new(
+      attributes: attributes_US,
+      organization: primary_organization
+    )
+    contact_point_CA = ContactPoint.new(
+      attributes: attributes_CA,
+      organization: primary_organization
+    )
+    contact_point_GB = ContactPoint.new(
+      attributes: attributes_GB,
+      organization: primary_organization
+    )
+    [contact_point_US, contact_point_CA, contact_point_GB]
+  end
+
   def primary_organization_links
     {
       links: {
@@ -115,18 +134,19 @@ module ContentPreparer
   end
 
   def organization_public_contact_points_relationship_content
-    <<-RESPONSE.gsub /^\s{4}/, ''
-    {
-      "links": {
-        "self": "#{organization_url}/relationships/public_contact_points",
-        "related": "#{organization_url}/public_contact_points"
-      },
-      "data": [{
-        "type": "ContactPoint",
-        "id": "1"
-      }]
+    response_data = {
+      links: {
+        self: "#{organization_url}/relationships/public_contact_points",
+        related: "#{organization_url}/public_contact_points"
+      }
     }
-    RESPONSE
+    contact_points = all_contact_points.map { |contact_point|
+      ContactPointPresenter.new(contact_point)
+    }
+    contact_points_presenter = ContactPointsPresenter.new(contact_points)
+    JSON.pretty_generate(
+      response_data.merge({data: contact_points_presenter.resource_identifiers})
+    )
   end
 
   def organization_administrative_areas_relationship_content
@@ -241,22 +261,17 @@ module ContentPreparer
   end
 
   def organization_public_contact_points_content
-    attributes_US = {id: 1, area_served: ["US"], phone_number: "1-866-123-4567"}
-    attributes_CA = {id: 2, area_served: ["CA"], phone_number: "1-866-987-6543"}
-    attributes_GB = {id: 3, area_served: ["GB"], phone_number: "44 1234 567"}
-    contact_point_US = ContactPoint.new(attributes: attributes_US, organization: primary_organization)
-    contact_point_CA = ContactPoint.new(attributes: attributes_CA, organization: primary_organization)
-    contact_point_GB = ContactPoint.new(attributes: attributes_GB, organization: primary_organization)
-    response = {
+    response_data = {
       links:  {
           "self":  "#{organization_url}/public_contact_points"
-      },
-      data: [
-        ContactPointPresenter.new(contact_point_US).resource_object,
-        ContactPointPresenter.new(contact_point_CA).resource_object,
-        ContactPointPresenter.new(contact_point_GB).resource_object
-      ]
+      }
     }
-    JSON.pretty_generate(response)
+    contact_points = all_contact_points.map { |contact_point|
+      ContactPointPresenter.new(contact_point)
+    }
+    contact_points_presenter = ContactPointsPresenter.new(contact_points)
+    JSON.pretty_generate(
+      response_data.merge({data: contact_points_presenter.resource_objects})
+    )
   end
 end
