@@ -5,6 +5,7 @@ require 'json_expressions/rspec'
 
 require_relative '../company_contacts_api.rb'
 require_relative '../content_preparer.rb'
+require_relative '../models.rb'
 
 include ContentPreparer
 

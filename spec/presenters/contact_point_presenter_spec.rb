@@ -1,12 +1,11 @@
 require 'spec_helper'
 
 describe ContactPointPresenter do
-  describe "#resource_identifier" do
-    let(:org) { Organization.new }
-    let(:contact_point) {
-      ContactPoint.new(1, ["US"], "1-866-123-4567", org)
-    }
+  let(:contact_point) {
+    ContactPoint.new(attributes: {id: 1, area_served: ["US"], phone_number: "1-866-123-4567"})
+  }
 
+  describe "#resource_identifier" do
     it "should return a hash with type and id fields" do
       contact_point_presenter = ContactPointPresenter.new(contact_point)
       expect(contact_point_presenter.resource_identifier).to eq({
@@ -14,7 +13,9 @@ describe ContactPointPresenter do
         id: "1"
       })
     end
+  end
 
+  describe "#resource_object" do
     it "should return a hash with the appropriate attributes" do
       expected_data = {
         type: "ContactPoint",

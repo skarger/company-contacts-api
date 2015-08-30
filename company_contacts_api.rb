@@ -1,5 +1,6 @@
 require 'bundler/setup'
 require 'roda'
+require './models'
 require './content_preparer'
 
 class CompanyContactsApi < Roda

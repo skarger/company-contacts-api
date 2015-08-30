@@ -17,10 +17,18 @@ describe "public contact points endpoint", type: :feature do
   end
 
   it "should have a data object with a collection of ContactPoint values" do
-    organization = Organization.new
-    contact_point_US = ContactPoint.new(1, ["US"], "1-866-123-4567", organization)
-    contact_point_CA = ContactPoint.new(2, ["CA"], "1-866-987-6543", organization)
-    contact_point_GB = ContactPoint.new(3, ["GB"], "44 1234 567", organization)
+    contact_point_US = ContactPoint.new(
+      attributes: {id: 1, area_served: ["US"], phone_number: "1-866-123-4567"},
+      organization: primary_organization
+    )
+    contact_point_CA = ContactPoint.new(
+      attributes: {id: 2, area_served: ["CA"], phone_number: "1-866-987-6543"},
+      organization: primary_organization
+    )
+    contact_point_GB = ContactPoint.new(
+      attributes: {id: 3, area_served: ["GB"], phone_number: "44 1234 567"},
+      organization: primary_organization
+    )
     data_collection_pattern = {
       data: [
         ContactPointPresenter.new(contact_point_US).resource_object,

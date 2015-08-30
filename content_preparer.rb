@@ -1,4 +1,5 @@
 require 'json'
+require './models'
 Dir["./presenters/*.rb"].each {|file| require file }
 
 module Configuration
@@ -239,25 +240,13 @@ module ContentPreparer
     RESPONSE
   end
 
-  class ContactPoint
-    attr_reader :id, :area_served, :phone_number, :organization
-
-    def initialize(id, area_served, phone_number, organization)
-      @id = id
-      @area_served = area_served
-      @phone_number = phone_number
-      @organization = organization
-    end
-
-    def organization_id
-      @organization.id
-    end
-  end
-
   def organization_public_contact_points_content
-    contact_point_US = ContactPoint.new(1, ["US"], "1-866-123-4567", primary_organization)
-    contact_point_CA = ContactPoint.new(2, ["CA"], "1-866-987-6543", primary_organization)
-    contact_point_GB = ContactPoint.new(3, ["GB"], "44 1234 567", primary_organization)
+    attributes_US = {id: 1, area_served: ["US"], phone_number: "1-866-123-4567"}
+    attributes_CA = {id: 2, area_served: ["CA"], phone_number: "1-866-987-6543"}
+    attributes_GB = {id: 3, area_served: ["GB"], phone_number: "44 1234 567"}
+    contact_point_US = ContactPoint.new(attributes: attributes_US, organization: primary_organization)
+    contact_point_CA = ContactPoint.new(attributes: attributes_CA, organization: primary_organization)
+    contact_point_GB = ContactPoint.new(attributes: attributes_GB, organization: primary_organization)
     response = {
       links:  {
           "self":  "#{organization_url}/public_contact_points"
