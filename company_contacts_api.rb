@@ -101,6 +101,14 @@ class CompanyContactsApi < Roda
         organization_public_contact_points_content
       end
 
+      r.is "contact_points/:id" do |id|
+        if ContactPointsCollection.new.contains?(id.to_i)
+          contact_point_content(id.to_i)
+        else
+          response.status = 404
+        end
+      end
+
       r.on "administrative_areas" do
         r.is do
           administrative_area_collection_content

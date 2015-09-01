@@ -112,6 +112,20 @@ module ContentPreparer
     [contact_point_US, contact_point_CA, contact_point_GB]
   end
 
+  def contact_point_content(id)
+    contact_point = ContactPoint.new(
+      attributes: {id: id}, organization: primary_organization
+    )
+    presenter = ContactPointPresenter.new(contact_point)
+    JSON.pretty_generate({
+      links: {
+          self: "#{organization_url}/contact_points/#{id}"
+        }
+    }.merge({
+      data: presenter.resource_object
+    }))
+  end
+
   def primary_organization_links
     {
       links: {
