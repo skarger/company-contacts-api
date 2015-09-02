@@ -23,7 +23,7 @@ module ContentPreparer
   end
 
   def organization_url
-    primary_organization.url
+    OrganizationPresenter.new(primary_organization).url
   end
 
   def contact_point_content(id)
@@ -43,14 +43,42 @@ module ContentPreparer
   def primary_organization_links
     {
       links: {
-        self: "#{Organization.new.url}"
+        self: "#{OrganizationPresenter.new(primary_organization).url}"
       }
     }
   end
 
+  def primary_organization_relationships
+    {
+      relationships: {
+        public_contact_points: {
+          links: {
+            self: "#{organization_url}/relationships/public_contact_points",
+            related: "#{organization_url}/public_contact_points"
+          }
+        },
+        member_facing_contact_points: {
+          links: {
+            self: "#{organization_url}/relationships/member_facing_contact_points",
+            related: "#{organization_url}/member_facing_contact_points"
+          }
+        },
+        administrative_areas: {
+          links: {
+            self: "#{organization_url}/relationships/administrative_areas",
+            related: "#{organization_url}/administrative_areas"
+          }
+        }
+      }
+    }
+  end
+
+  def primary_organization_data
+    organization = OrganizationPresenter.new(primary_organization)
+    organization.resource_object.merge(primary_organization_relationships)
+  end
+
   def primary_organization_content
-    organizations = OrganizationCollection.new
-    primary_organization_data = organizations.resource_objects[0]
     JSON.pretty_generate(
       primary_organization_links.merge({data: primary_organization_data})
     )
@@ -98,21 +126,21 @@ module ContentPreparer
   end
 
   def home_related_organization_content
-    data = OrganizationCollection.new.resource_objects
+    data = [primary_organization_data]
     JSON.pretty_generate(
       home_page_related_organization_links.merge({data: data})
     )
   end
 
   def home_organization_relationship_content
-    organizations = OrganizationCollection.new
+    organizations = OrganizationsPresenter.new([primary_organization])
     <<-RESPONSE.gsub /^\s{4}/, ''
     {
       "links": {
         "self": "#{base_url}/home/relationships/organizations",
         "related": "#{base_url}/home/organizations"
       },
-      "data": #{JSON.pretty_generate(organizations.resource_identifier_array)}
+      "data": #{JSON.pretty_generate(organizations.resource_identifiers)}
     }
     RESPONSE
   end
