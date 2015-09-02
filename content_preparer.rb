@@ -3,73 +3,6 @@ require './models'
 require './presenters'
 require './configuration'
 
-class OrganizationCollection
-  def initialize
-    @organization_ids = [1]
-  end
-
-  def resource_identifier_array
-    @organization_ids.map do |id|
-      organization = Organization.new
-      {
-        type: organization.type,
-        id: organization.id.to_s
-      }
-    end
-  end
-
-  def resource_objects
-    @organization_ids.map do |id|
-      Organization.new.data
-    end
-  end
-end
-
-class Organization
-  include Configuration
-
-  attr_reader :type, :id
-
-  def initialize
-    @type = "Organization"
-    @id = 1
-  end
-
-  def url
-    "#{base_url}/organizations/#{@id}"
-  end
-
-  def data
-    {
-      type: @type,
-      id: @id.to_s,
-      links: {
-        self: "#{url}"
-      },
-      relationships: {
-        public_contact_points: {
-          links: {
-            self: "#{url}/relationships/public_contact_points",
-            related: "#{url}/public_contact_points"
-          }
-        },
-        member_facing_contact_points: {
-          links: {
-            self: "#{url}/relationships/member_facing_contact_points",
-            related: "#{url}/member_facing_contact_points"
-          }
-        },
-        administrative_areas: {
-          links: {
-            self: "#{url}/relationships/administrative_areas",
-            related: "#{url}/administrative_areas"
-          }
-        }
-      }
-    }
-  end
-end
-
 module ContentPreparer
   include Configuration
 
@@ -93,25 +26,6 @@ module ContentPreparer
     primary_organization.url
   end
 
-  def all_contact_points
-    attributes_US = {id: 1, area_served: ["US"], phone_number: "1-866-123-4567"}
-    attributes_CA = {id: 2, area_served: ["CA"], phone_number: "1-866-987-6543"}
-    attributes_GB = {id: 3, area_served: ["GB"], phone_number: "44 1234 567"}
-    contact_point_US = ContactPoint.new(
-      attributes: attributes_US,
-      organization: primary_organization
-    )
-    contact_point_CA = ContactPoint.new(
-      attributes: attributes_CA,
-      organization: primary_organization
-    )
-    contact_point_GB = ContactPoint.new(
-      attributes: attributes_GB,
-      organization: primary_organization
-    )
-    [contact_point_US, contact_point_CA, contact_point_GB]
-  end
-
   def contact_point_content(id)
     contact_point = ContactPoint.new(
       attributes: {id: id}, organization: primary_organization
@@ -119,7 +33,7 @@ module ContentPreparer
     presenter = ContactPointPresenter.new(contact_point)
     JSON.pretty_generate({
       links: {
-          self: "#{organization_url}/contact_points/#{id}"
+          self: presenter.url
         }
     }.merge({
       data: presenter.resource_object
@@ -149,9 +63,7 @@ module ContentPreparer
         related: "#{organization_url}/public_contact_points"
       }
     }
-    contact_points = all_contact_points.map { |contact_point|
-      ContactPointPresenter.new(contact_point)
-    }
+    contact_points = PublicContactPointsCollection.new.all
     contact_points_presenter = ContactPointsPresenter.new(contact_points)
     JSON.pretty_generate(
       response_data.merge({data: contact_points_presenter.resource_identifiers})
@@ -275,9 +187,7 @@ module ContentPreparer
           "self":  "#{organization_url}/public_contact_points"
       }
     }
-    contact_points = all_contact_points.map { |contact_point|
-      ContactPointPresenter.new(contact_point)
-    }
+    contact_points = PublicContactPointsCollection.new.all
     contact_points_presenter = ContactPointsPresenter.new(contact_points)
     JSON.pretty_generate(
       response_data.merge({data: contact_points_presenter.resource_objects})

@@ -11,9 +11,9 @@ describe "ContactPointsPresenter" do
     expect(ContactPointsPresenter.new).to be
   end
 
-  it "should accept a list of ContactPointPresenter objects to contain" do
+  it "should accept a list of ContactPoint objects to contain" do
       contact_points_presenter = ContactPointsPresenter.new(
-        [ContactPointPresenter.new(contact_point)]
+        [contact_point]
       )
       expect(contact_points_presenter).to be
   end
@@ -33,15 +33,19 @@ describe "ContactPointsPresenter" do
     end
 
     context "when there are ContactPoints in this collection" do
-      let(:contact_point_one) { ContactPointPresenter.new(contact_point) }
-      let(:contact_point_two) { ContactPointPresenter.new(contact_point) }
+      let(:contact_point_one) { contact_point }
+      let(:contact_point_two) { contact_point }
       let(:cp_array) { [contact_point_one, contact_point_two] }
 
       it "should include the ContactPointPresenter resource objects" do
         contact_points_presenter = ContactPointsPresenter.new(cp_array)
         resource_objects = contact_points_presenter.resource_objects
-        expect(resource_objects).to include(contact_point_one.resource_object)
-        expect(resource_objects).to include(contact_point_two.resource_object)
+        expect(resource_objects).to include(
+          ContactPointPresenter.new(contact_point_one).resource_object
+        )
+        expect(resource_objects).to include(
+          ContactPointPresenter.new(contact_point_two).resource_object
+        )
       end
     end
   end
@@ -55,15 +59,19 @@ describe "ContactPointsPresenter" do
     end
 
     context "when there are ContactPoints in this collection" do
-      let(:contact_point_one) { ContactPointPresenter.new(contact_point) }
-      let(:contact_point_two) { ContactPointPresenter.new(contact_point) }
+      let(:contact_point_one) { contact_point }
+      let(:contact_point_two) { contact_point }
       let(:cp_array) { [contact_point_one, contact_point_two] }
 
       it "should include the ContactPointPresenter resource identifiers" do
         contact_points_presenter = ContactPointsPresenter.new(cp_array)
         resource_identifiers = contact_points_presenter.resource_identifiers
-        expect(resource_identifiers).to include(contact_point_one.resource_identifier)
-        expect(resource_identifiers).to include(contact_point_two.resource_identifier)
+        expect(resource_identifiers).to include(
+          ContactPointPresenter.new(contact_point_one).resource_identifier
+        )
+        expect(resource_identifiers).to include(
+          ContactPointPresenter.new(contact_point_two).resource_identifier
+        )
       end
     end
   end

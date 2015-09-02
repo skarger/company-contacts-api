@@ -7,7 +7,7 @@ describe "GET /organizations/:id/contact_points/:id", type: :feature do
   end
 
   context "when ContactPoint exists" do
-    let(:contact_points_collection) { ContactPointsCollection.new }
+    let(:contact_points_collection) { PublicContactPointsCollection.new }
     let(:contact_point) {
       ContactPoint.new(attributes: {id: 1}, organization: primary_organization)
     }

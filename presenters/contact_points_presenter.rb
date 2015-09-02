@@ -5,13 +5,13 @@ class ContactPointsPresenter
 
   def resource_objects
     @contact_points.map do |contact_point|
-      contact_point.resource_object
+      ContactPointPresenter.new(contact_point).resource_object
     end
   end
 
   def resource_identifiers
     @contact_points.map do |contact_point|
-      contact_point.resource_identifier
+      ContactPointPresenter.new(contact_point).resource_identifier
     end
   end
 end

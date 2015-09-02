@@ -102,7 +102,7 @@ class CompanyContactsApi < Roda
       end
 
       r.is "contact_points/:id" do |id|
-        if ContactPointsCollection.new.contains?(id.to_i)
+        if PublicContactPointsCollection.new.contains?(id.to_i)
           contact_point_content(id.to_i)
         else
           response.status = 404
