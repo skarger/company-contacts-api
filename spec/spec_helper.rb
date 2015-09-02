@@ -12,10 +12,10 @@ include ContentPreparer
 include Rack::Test::Methods
 
 # for capybara feature tests
-Capybara.app = CompanyContactsApi 
+Capybara.app = OrganizationalContactsApi
 
 # for rack tests
 def app
-  CompanyContactsApi
+  OrganizationalContactsApi
 end
 

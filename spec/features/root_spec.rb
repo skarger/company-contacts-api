@@ -1,6 +1,6 @@
 require_relative "../spec_helper.rb"
 
-Capybara.app = CompanyContactsApi
+Capybara.app = OrganizationalContactsApi
 
 describe "root path", :type => :feature do
   it "should redirect to the named home page" do

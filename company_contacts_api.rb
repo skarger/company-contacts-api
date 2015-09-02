@@ -3,7 +3,7 @@ require 'roda'
 require './models'
 require './content_preparer'
 
-class CompanyContactsApi < Roda
+class OrganizationalContactsApi < Roda
   plugin :param_matchers
   include ContentPreparer
 
