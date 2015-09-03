@@ -19,31 +19,29 @@ module ContentPreparer
   end
 
   def home_page_content
-    <<-RESPONSE.gsub /^\s{4}/, ''
-    {
-      "links": {
-        "self": "#{base_url}/home"
+    JSON.pretty_generate({
+      links: {
+        self: "#{base_url}/home"
       },
-      "data": {
-        "type": "WebPage",
-        "id": "1",
-        "links": {
-            "self": "#{base_url}/home"
+      data: {
+        type: "WebPage",
+        id: "1",
+        links: {
+            self: "#{base_url}/home"
         },
-        "attributes": {
-          "description": "Organizational Contact Points"
+        attributes: {
+          description: "Organizational Contact Points"
         },
-        "relationships": {
-          "organizations": {
-            "links": {
-              "self": "#{base_url}/home/relationships/organizations",
-              "related": "#{base_url}/home/organizations"
+        relationships: {
+          organizations: {
+            links: {
+              self: "#{base_url}/home/relationships/organizations",
+              related: "#{base_url}/home/organizations"
             }
           }
         }
       }
-    }
-    RESPONSE
+    })
   end
 
   def home_page_related_organization_links
@@ -119,50 +117,36 @@ module ContentPreparer
     )
   end
 
-  def administrative_area_id_US
-    1
+  def administrative_area_US
+    AdministrativeArea.new(id: 1, address: { address_country: "US" })
   end
 
-  def administrative_area_id_CA
-    2
+  def administrative_area_CA
+    AdministrativeArea.new(id: 2, address: { address_country: "CA" })
+  end
+
+  def all_administrative_areas
+    [administrative_area_US, administrative_area_CA]
   end
 
   def organization_administrative_areas_relationship_content
-    <<-RESPONSE.gsub /^\s{4}/, ''
-    {
-      "links": {
-        "self": "#{organization_url}/relationships/administrative_areas",
-        "related": "#{organization_url}/administrative_areas"
-      },
-      "data": [{
-        "type": "AdministrativeArea",
-        "id": "#{administrative_area_id_US}"
-      },
-      {
-        "type": "AdministrativeArea",
-        "id": "#{administrative_area_id_CA}"
-      }]
-    }
-    RESPONSE
+    presenter = AdministrativeAreasPresenter.new(all_administrative_areas)
+    presenter.resource_identifiers
+    JSON.pretty_generate({
+      links: {
+        self: "#{organization_url}/relationships/administrative_areas",
+        related: "#{organization_url}/administrative_areas"
+      }
+    }.merge({data: presenter.resource_identifiers}))
   end
 
   def administrative_areas_collection_data
     {
       data: [
-        {
-          type: "AdministrativeArea",
-          id: "#{administrative_area_id_US}",
-          links: {
-            self: "#{organization_url}/administrative_areas/#{administrative_area_id_US}"
-          }
-        },
-        {
-          type: "AdministrativeArea",
-          id: "#{administrative_area_id_CA}",
-          links: {
-            self: "#{organization_url}/administrative_areas/#{administrative_area_id_CA}"
-          }
-        }
+        AdministrativeAreaPresenter.new(administrative_area_US).
+          resource_object,
+        AdministrativeAreaPresenter.new(administrative_area_CA).
+          resource_object
       ]
     }
   end
