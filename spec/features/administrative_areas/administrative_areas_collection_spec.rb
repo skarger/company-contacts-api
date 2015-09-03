@@ -18,6 +18,7 @@ describe "administrative_areas collection endpoint", type: :feature do
 
   let(:administrative_area_id_US) { 1 }
   let(:administrative_area_id_CA) { 2 }
+  let(:administrative_area_id_GB) { 3 }
 
   let(:administrative_area_data_pattern) {
     {
@@ -29,6 +30,10 @@ describe "administrative_areas collection endpoint", type: :feature do
         {
           type: "AdministrativeArea",
           id: "#{administrative_area_id_CA}"
+        }.ignore_extra_keys!,
+        {
+          type: "AdministrativeArea",
+          id: "#{administrative_area_id_GB}"
         }.ignore_extra_keys!
       ]
     }.ignore_extra_keys!
@@ -45,6 +50,11 @@ describe "administrative_areas collection endpoint", type: :feature do
         {
           links: {
             self: "#{organization_url}/administrative_areas/#{administrative_area_id_CA}"
+          }
+        }.ignore_extra_keys!,
+        {
+          links: {
+            self: "#{organization_url}/administrative_areas/#{administrative_area_id_GB}"
           }
         }.ignore_extra_keys!
       ]

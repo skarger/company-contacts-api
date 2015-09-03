@@ -64,6 +64,10 @@ describe "organization relationships", type: :feature do
         {
           type: "AdministrativeArea",
           id: "2"
+        },
+        {
+          type: "AdministrativeArea",
+          id: "3"
         }]
       }.ignore_extra_keys!
       visit "#{organization_url}/relationships/administrative_areas"

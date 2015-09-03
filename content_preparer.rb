@@ -125,8 +125,12 @@ module ContentPreparer
     AdministrativeArea.new(id: 2, address: { address_country: "CA" })
   end
 
+  def administrative_area_GB
+    AdministrativeArea.new(id: 3, address: { address_country: "GB" })
+  end
+
   def all_administrative_areas
-    [administrative_area_US, administrative_area_CA]
+    [administrative_area_US, administrative_area_CA, administrative_area_GB]
   end
 
   def organization_administrative_areas_relationship_content
@@ -142,12 +146,9 @@ module ContentPreparer
 
   def administrative_areas_collection_data
     {
-      data: [
-        AdministrativeAreaPresenter.new(administrative_area_US).
-          resource_object,
-        AdministrativeAreaPresenter.new(administrative_area_CA).
-          resource_object
-      ]
+      data: all_administrative_areas.map do |area|
+        AdministrativeAreaPresenter.new(area).resource_object
+      end
     }
   end
 
@@ -164,6 +165,15 @@ module ContentPreparer
       administrative_areas_collection_links.
         merge(administrative_areas_collection_data)
     )
+  end
+
+  def administrative_area_content(id)
+    area = all_administrative_areas.select { |element|
+      element.id == id
+    }.first
+    JSON.pretty_generate({
+      data: AdministrativeAreaPresenter.new(area).resource_object
+    })
   end
 
   def contact_point_content(id)

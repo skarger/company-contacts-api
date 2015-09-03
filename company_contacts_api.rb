@@ -113,6 +113,14 @@ class OrganizationalContactsApi < Roda
         r.is do
           administrative_area_collection_content
         end
+
+        r.is ":id" do |id|
+          if [1,2,3].include?(id.to_i)
+            administrative_area_content(id.to_i)
+          else
+            response.status = 404
+          end
+        end
       end
 
       r.on "relationships" do
