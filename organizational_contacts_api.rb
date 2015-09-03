@@ -136,6 +136,14 @@ class OrganizationalContactsApi < Roda
           organization_public_contact_points_relationship_content
         end
 
+        r.is "member_facing_contact_points" do
+          if Authorizer.new.logged_in?
+            organization_member_facing_contact_points_relationship_content
+          else
+            response.status = 403
+          end
+        end
+
         r.is "administrative_areas" do
           organization_administrative_areas_relationship_content
         end

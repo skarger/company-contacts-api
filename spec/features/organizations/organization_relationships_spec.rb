@@ -38,6 +38,30 @@ describe "organization relationships", type: :feature do
     end
   end
 
+  describe "member facing contact points relationship" do
+    it "should return 403" do
+      get "#{organization_url}/relationships/member_facing_contact_points"
+      expect(last_response.status).to eq(403)
+    end
+
+    context "when logged in" do
+      class TestAuthorizer
+        def logged_in?
+          true
+        end
+      end
+
+      before(:each) do
+        allow(Authorizer).to receive(:new).and_return(TestAuthorizer.new)
+      end
+
+      it "should return 200" do
+        get "#{organization_url}/relationships/member_facing_contact_points"
+        expect(last_response.status).to eq(200)
+      end
+    end
+  end
+
   describe "administrative_areas relationship" do
     it "should return 200 for the administrative_areas relationship" do
       get "#{organization_url}/relationships/administrative_areas"

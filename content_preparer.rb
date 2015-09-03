@@ -130,6 +130,20 @@ module ContentPreparer
     )
   end
 
+  def organization_member_facing_contact_points_relationship_content
+    top_level_links = {
+      links: {
+        self: "#{organization_url}/relationships/member_facing_contact_points",
+        related: "#{organization_url}/member_facing_contact_points"
+      }
+    }
+    contact_points = PublicContactPointsCollection.new.all
+    contact_points_presenter = ContactPointsPresenter.new(contact_points)
+    JSON.pretty_generate(
+      top_level_links.merge({data: contact_points_presenter.resource_identifiers})
+    )
+  end
+
   def administrative_area_US
     AdministrativeArea.new(id: 1, address: { address_country: "US" })
   end
