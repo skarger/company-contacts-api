@@ -24,6 +24,26 @@ class OrganizationPresenter
         self: url
       },
       attributes: {
+      },
+      relationships: {
+        public_contact_points: {
+          links: {
+            self: "#{url}/relationships/public_contact_points",
+            related: "#{url}/public_contact_points"
+          }
+        },
+        member_facing_contact_points: {
+          links: {
+            self: "#{url}/relationships/member_facing_contact_points",
+            related: "#{url}/member_facing_contact_points"
+          }
+        },
+        administrative_areas: {
+          links: {
+            self: "#{url}/relationships/administrative_areas",
+            related: "#{url}/administrative_areas"
+          }
+        }
       }
     }
   end
