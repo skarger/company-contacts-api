@@ -1,7 +1,7 @@
 
 Organizational Contacts API
 ===========================
-![Build Status](https://travis-ci.org/skarger/company-contacts-api.svg?branch=master)
+![Build Status](https://travis-ci.org/skarger/organizational-contacts-api.svg?branch=master)
 
 An HTTP service to provide contact information for one or more organizations, including phone numbers, email addresses, and postal addresses. It supports multiple contact points per organization, to account for variation such as
 - Different user needs, like separate customer service and sales contacts.
