@@ -9,5 +9,5 @@ Unreloader.require './models.rb'
 Unreloader.require './models/*.rb'
 Unreloader.require './presenters.rb'
 Unreloader.require './presenters/*.rb'
-Unreloader.require './company_contacts_api.rb'
+Unreloader.require './organizational_contacts_api.rb'
 run (in_development_mode ? Unreloader : CompanyContacsApi)
