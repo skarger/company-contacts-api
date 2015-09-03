@@ -27,6 +27,8 @@ class ContactPointPresenter
       },
       attributes: {
         areaServed: @contact_point.area_served,
+        contactType: @contact_point.contact_type,
+        email: @contact_point.email,
         phoneNumber: @contact_point.phone_number
       }
     }

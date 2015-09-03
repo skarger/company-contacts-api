@@ -117,6 +117,19 @@ module ContentPreparer
     )
   end
 
+  def organization_member_facing_contact_points_content
+    response_data = {
+      links:  {
+          "self":  "#{organization_url}/member_facing_contact_points"
+      }
+    }
+    contact_points = PublicContactPointsCollection.new.all
+    contact_points_presenter = ContactPointsPresenter.new(contact_points)
+    JSON.pretty_generate(
+      response_data.merge({data: contact_points_presenter.resource_objects})
+    )
+  end
+
   def administrative_area_US
     AdministrativeArea.new(id: 1, address: { address_country: "US" })
   end
@@ -177,9 +190,9 @@ module ContentPreparer
   end
 
   def contact_point_content(id)
-    contact_point = ContactPoint.new(
-      attributes: {id: id}, organization: primary_organization
-    )
+    contact_point = PublicContactPointsCollection.new.all.select { |element|
+      element.id == id
+    }.first
     presenter = ContactPointPresenter.new(contact_point)
     JSON.pretty_generate({
       links: {

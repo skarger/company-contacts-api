@@ -2,7 +2,13 @@ require 'spec_helper'
 
 describe ContactPointPresenter do
   let(:contact_point) {
-    ContactPoint.new(attributes: {id: 1, area_served: ["US"], phone_number: "1-866-123-4567"})
+    ContactPoint.new(attributes: {
+      id: 1,
+      area_served: ["US"],
+      contact_type: "customer service",
+      email: "service@example.com",
+      phone_number: "1-866-123-4567"
+    })
   }
 
   describe "#resource_identifier" do
@@ -27,6 +33,8 @@ describe ContactPointPresenter do
         },
         attributes: {
           areaServed: ["US"],
+          contactType: "customer service",
+          email: "service@example.com",
           phoneNumber: "1-866-123-4567"
         }
       }

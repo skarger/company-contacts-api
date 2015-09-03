@@ -41,8 +41,10 @@ describe "GET /organizations/:id/contact_points/:id", type: :feature do
             self: "#{organization_url}/contact_points/#{contact_point.id}",
           },
           attributes: {
-            areaServed: [],
-            phoneNumber: ""
+            areaServed: wildcard_matcher,
+            contactType: /\w/,
+            email: /\w/,
+            phoneNumber: /\w/
           }
         }
       }.ignore_extra_keys!
