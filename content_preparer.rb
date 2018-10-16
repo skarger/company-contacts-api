@@ -1,7 +1,4 @@
 require 'json'
-require './models'
-require './presenters'
-require './configuration'
 
 module ContentPreparer
   include Configuration

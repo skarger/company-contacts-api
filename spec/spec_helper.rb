@@ -3,19 +3,21 @@ require 'rspec'
 require 'capybara/rspec'
 require 'json_expressions/rspec'
 
-require_relative '../organizational_contacts_api.rb'
-require_relative '../content_preparer.rb'
-require_relative '../models.rb'
+$LOAD_PATH.unshift File.join(File.dirname(__FILE__), '../')
+require 'dependencies'
 
 include ContentPreparer
 
-include Rack::Test::Methods
+module RackTestHelper
+  def self.included(mod)
+    mod.include Rack::Test::Methods
+  end
 
-# for capybara feature tests
-Capybara.app = OrganizationalContactsApi
+  # for capybara feature tests
+  Capybara.app = OrganizationalContactsApi
 
-# for rack tests
-def app
-  OrganizationalContactsApi
+  # for rack tests
+  def app
+    OrganizationalContactsApi
+  end
 end
-

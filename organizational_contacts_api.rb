@@ -1,9 +1,12 @@
 require 'bundler/setup'
 require 'roda'
-require './models'
-require './content_preparer'
+require 'pry'
+
+$LOAD_PATH.unshift File.dirname(__FILE__)
+require 'dependencies'
 
 class OrganizationalContactsApi < Roda
+  plugin :halt
   plugin :param_matchers
   include ContentPreparer
 
@@ -50,13 +53,9 @@ class OrganizationalContactsApi < Roda
     response['Content-Type'] = json_api_media_type
 
     if !content_type_valid?(request)
-      response.status = 415
+      r.halt(415)
     elsif !accept_header_valid?(request)
-        response.status = 406
-    end
-
-    if response.status
-      r.halt
+      r.halt(406)
     end
 
     r.root do
@@ -64,11 +63,11 @@ class OrganizationalContactsApi < Roda
     end
 
     r.on :param => 'include' do |value|
-      response.status = 400
+      r.halt(400)
     end
 
     r.on :param => 'sort' do |value|
-      response.status = 400
+      r.halt(400)
     end
 
     r.on "home" do
@@ -151,6 +150,5 @@ class OrganizationalContactsApi < Roda
     end
 
   end
-
 end
 

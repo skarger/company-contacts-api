@@ -1,8 +1,11 @@
 require_relative "./spec_helper.rb"
 
 describe "server responsibility" do
+  include RackTestHelper
+
   it "should send the Content-Type for JSON API" do
     content_type = "application/vnd.api+json"
+    header 'Content-Type', content_type
     get '/'
     expect(last_response.header['Content-Type']).to eq(content_type)
   end

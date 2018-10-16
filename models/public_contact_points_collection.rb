@@ -1,3 +1,6 @@
+$LOAD_PATH.unshift File.dirname(__FILE__)
+require 'contact_points_collection'
+
 class PublicContactPointsCollection
   include ContactPointsCollection
 
