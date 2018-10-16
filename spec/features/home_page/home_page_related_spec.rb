@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe "home page related links", type: :feature do
+  include RackTestHelper
+
   context 'related organizations link' do
     it "should successfully respond" do
       get '/home/organizations'

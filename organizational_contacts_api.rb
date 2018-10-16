@@ -1,6 +1,5 @@
 require 'bundler/setup'
 require 'roda'
-require 'pry'
 
 $LOAD_PATH.unshift File.dirname(__FILE__)
 require 'dependencies'
@@ -104,15 +103,15 @@ class OrganizationalContactsApi < Roda
         if Authorizer.new.logged_in?
            organization_member_facing_contact_points_content
         else
-          response.status = 403
+          r.halt(403)
         end
       end
 
-      r.is "contact_points/:id" do |id|
+      r.is "contact_points", String do |id|
         if PublicContactPointsCollection.new.contains?(id.to_i)
           contact_point_content(id.to_i)
         else
-          response.status = 404
+          r.halt(404)
         end
       end
 
@@ -121,7 +120,7 @@ class OrganizationalContactsApi < Roda
           administrative_area_collection_content
         end
 
-        r.is ":id" do |id|
+        r.is String do |id|
           if [1,2,3].include?(id.to_i)
             administrative_area_content(id.to_i)
           else
@@ -139,7 +138,7 @@ class OrganizationalContactsApi < Roda
           if Authorizer.new.logged_in?
             organization_member_facing_contact_points_relationship_content
           else
-            response.status = 403
+            r.halt(403)
           end
         end
 

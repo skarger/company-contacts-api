@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe "GET /organizations/:id/contact_points/:id", type: :feature do
+  include RackTestHelper
+
   it "should respond not found if ContactPoint does not exist" do
     get "#{organization_url}/contact_points/NON-EXISTENT"
     expect(last_response.status).to eq(404)

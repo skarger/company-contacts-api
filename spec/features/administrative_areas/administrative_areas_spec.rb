@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe "GET /organizations/:id/administrative_areas/:id", type: :feature do
+  include RackTestHelper
+
   it "should successfully respond" do
     get "#{organization_url}/administrative_areas/1"
     expect(last_response.status).to eq(200)

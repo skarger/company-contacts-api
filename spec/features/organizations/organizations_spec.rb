@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe "primary organization endpoint", type: :feature do
+  include RackTestHelper
+
   it "should successfully respond to the canonical organization link" do
     get organization_url
     expect(last_response.status).to eq(200)

@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe "member facing contact points endpoint", type: :feature do
+  include RackTestHelper
+
   context "when not logged in" do
     it "should respond with a 403 to the link" do
       allow_any_instance_of(Authorizer).to receive(:logged_in?).and_return(false)

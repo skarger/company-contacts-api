@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe "home page relations", type: :feature do
+  include RackTestHelper
+
   describe "link to organizations relationship" do
     it "should return 200" do
       get '/home/relationships/organizations'

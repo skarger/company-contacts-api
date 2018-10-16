@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe "organization relationships", type: :feature do
+  include RackTestHelper
+
   describe "public contact points relationship" do
     it "should return 200" do
       get "#{organization_url}/relationships/public_contact_points"

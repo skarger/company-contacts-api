@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe "administrative_areas collection endpoint", type: :feature do
+  include RackTestHelper
+
   it "should successfully respond to the administrative_areas link" do
     get "#{organization_url}/administrative_areas"
     expect(last_response.status).to eq(200)
