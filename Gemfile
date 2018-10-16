@@ -2,7 +2,6 @@ source 'https://rubygems.org'
 
 gem 'roda'
 gem 'rack'
-gem 'rack-unreloader'
 gem 'rake'
 
 group :test, :development do
